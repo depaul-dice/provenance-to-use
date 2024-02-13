@@ -1159,7 +1159,7 @@ void CDE_begin_at_fileop(struct tcb* tcp, const char* syscall_name) {
     vbprintf("[%d] BEGIN %s '%s' (dirfd=%u)\n", tcp->pid, syscall_name, filename, (unsigned int)tcp->u_arg[0]);
   }
 
-  if (!IS_ABSPATH(filename) && tcp->u_arg[0] != AT_FDCWD) {
+  if (!IS_ABSPATH(filename) && ((int) tcp->u_arg[0]) != AT_FDCWD) {
     fprintf(stderr,
             "CDE WARNING (unsupported operation): %s '%s' is a relative path and dirfd != AT_FDCWD\n",
             syscall_name, filename);
@@ -2167,7 +2167,7 @@ void CDE_begin_file_unlinkat(struct tcb* tcp) {
     vbprintf("[%d] BEGIN unlinkat '%s'\n", tcp->pid, filename);
   }
 
-  if (!IS_ABSPATH(filename) && tcp->u_arg[0] != AT_FDCWD) {
+  if (!IS_ABSPATH(filename) && ((int) tcp->u_arg[0]) != AT_FDCWD) {
     fprintf(stderr, "CDE WARNING: unlinkat '%s' is a relative path and dirfd != AT_FDCWD\n", filename);
     return; // punt early!
   }
@@ -2229,13 +2229,13 @@ void CDE_begin_file_linkat(struct tcb* tcp) {
     vbprintf("[%d] BEGIN linkat(%s, %s)\n", tcp->pid, oldpath, newpath);
   }
 
-  if (!IS_ABSPATH(oldpath) && tcp->u_arg[0] != AT_FDCWD) {
+  if (!IS_ABSPATH(oldpath) && ((int) tcp->u_arg[0]) != AT_FDCWD) {
     fprintf(stderr,
             "CDE WARNING: linkat '%s' is a relative path and dirfd != AT_FDCWD\n",
             oldpath);
     goto done; // punt early!
   }
-  if (!IS_ABSPATH(newpath) && tcp->u_arg[2] != AT_FDCWD) {
+  if (!IS_ABSPATH(newpath) && ((int) tcp->u_arg[2]) != AT_FDCWD) {
     fprintf(stderr,
             "CDE WARNING: linkat '%s' is a relative path and dirfd != AT_FDCWD\n",
             newpath);
@@ -2304,7 +2304,7 @@ void CDE_begin_file_symlinkat(struct tcb* tcp) {
 
   char* newpath = strcpy_from_child(tcp, tcp->u_arg[2]);
 
-  if (!IS_ABSPATH(newpath) && tcp->u_arg[1] != AT_FDCWD) {
+  if (!IS_ABSPATH(newpath) && ((int) tcp->u_arg[1]) != AT_FDCWD) {
     fprintf(stderr, "CDE WARNING: symlinkat '%s' is a relative path and dirfd != AT_FDCWD\n", newpath);
     free(newpath);
     return; // punt early!
@@ -2376,13 +2376,13 @@ void CDE_begin_file_renameat(struct tcb* tcp) {
   char* oldpath = strcpy_from_child(tcp, tcp->u_arg[1]);
   char* newpath = strcpy_from_child(tcp, tcp->u_arg[3]);
 
-  if (!IS_ABSPATH(oldpath) && tcp->u_arg[0] != AT_FDCWD) {
+  if (!IS_ABSPATH(oldpath) && ((int) tcp->u_arg[0]) != AT_FDCWD) {
     fprintf(stderr,
             "CDE WARNING: renameat '%s' is a relative path and dirfd != AT_FDCWD\n",
             oldpath);
     goto done; // punt early!
   }
-  if (!IS_ABSPATH(newpath) && tcp->u_arg[2] != AT_FDCWD) {
+  if (!IS_ABSPATH(newpath) && ((int) tcp->u_arg[2]) != AT_FDCWD) {
     fprintf(stderr,
             "CDE WARNING: renameat '%s' is a relative path and dirfd != AT_FDCWD\n",
             newpath);
