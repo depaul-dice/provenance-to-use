@@ -34,10 +34,10 @@
 #define CDE_OPTIONS_VERSION_NUM "# cde.options v1"
 //#define CDE_ROOT_NAME "cde-root"
 #define CDE_ROOT_NAME_DEFAULT "cde-root"
-char* CDE_ROOT_NAME;
+extern char* CDE_ROOT_NAME; // declared here; defined in strace-4.6/cde.c
 // pgbovine - these are both ABSOLUTE paths
-char* CDE_PACKAGE_DIR;
-char* CDE_ROOT_DIR;
+extern char* CDE_PACKAGE_DIR; // declared here; defined in strace-4.6/cde.c
+extern char* CDE_ROOT_DIR; // declared here; defined in strace-4.6/cde.c
 
 
 #ifdef HAVE_CONFIG_H

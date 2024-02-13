@@ -61,7 +61,7 @@ int do_debug_frames_interp;
 int do_debug_macinfo;
 int do_debug_str;
 int do_debug_loc;
-int do_wide;
+int dwarf_do_wide; // this symbol conflicts with readelf-mini/readelf-mini.c do_wide
 
 /* Values for do_debug_lines.  */
 #define FLAG_DEBUG_LINES_RAW	 1
@@ -2603,7 +2603,7 @@ display_debug_lines_decoded (struct dwarf_section *section,
             }
           else
             {
-              if (do_wide || strlen ((char *) directory_table[0]) < 76)
+              if (dwarf_do_wide || strlen ((char *) directory_table[0]) < 76)
                 {
                   printf (_("CU: %s/%s:\n"), directory_table[0],
                           file_table[0].name);
@@ -2790,7 +2790,7 @@ display_debug_lines_decoded (struct dwarf_section *section,
               char *newFileName = NULL;
               size_t fileNameLength = strlen (fileName);
 
-              if ((fileNameLength > MAX_FILENAME_LENGTH) && (!do_wide))
+              if ((fileNameLength > MAX_FILENAME_LENGTH) && (!dwarf_do_wide))
                 {
                   newFileName = (char *) xmalloc (MAX_FILENAME_LENGTH + 1);
                   /* Truncate file name */
@@ -2804,7 +2804,7 @@ display_debug_lines_decoded (struct dwarf_section *section,
                   strncpy (newFileName, fileName, fileNameLength + 1);
                 }
 
-              if (!do_wide || (fileNameLength <= MAX_FILENAME_LENGTH))
+              if (!dwarf_do_wide || (fileNameLength <= MAX_FILENAME_LENGTH))
                 {
                   printf (_("%-35s  %11d  %#18lx\n"), newFileName,
                           state_machine_regs.line, state_machine_regs.address);
